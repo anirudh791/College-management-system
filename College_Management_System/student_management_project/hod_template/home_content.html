@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #2f4050;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .dashboard {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            padding: 20px;
+        }
+        .card {
+            background: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin: 10px;
+            border-radius: 8px;
+            width: 300px;
+        }
+        h2 {
+            margin: 10px 0;
+            font-size: 20px;
+        }
+        .section-title {
+            margin-top: 40px;
+            font-size: 24px;
+            text-align: center;
+        }
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        li {
+            background: #eaeaea;
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Admin Dashboard</h1>
+    </header>
+
+    <div class="dashboard">
+        <div class="card">
+            <h2>Total Students</h2>
+            <p>{{ all_student_count }}</p>
+        </div>
+        <div class="card">
+            <h2>Total Subjects</h2>
+            <p>{{ subject_count }}</p>
+        </div>
+        <div class="card">
+            <h2>Total Courses</h2>
+            <p>{{ course_count }}</p>
+        </div>
+        <div class="card">
+            <h2>Total Staffs</h2>
+            <p>{{ staff_count }}</p>
+        </div>
+    </div>
+
+    <div class="section-title">Course-wise Student and Subject Count</div>
+    <div class="dashboard">
+ 
+
+    <div class="section-title">Staff Attendance Summary</div>
+    <div class="dashboard">
+        {% for name, present, leave in staff_name_list|zip:staff_attendance_present_list:staff_attendance_leave_list %}
+            <div class="card">
+                <h2>{{ name }}</h2>
+                <p>Classes Taken: {{ present }}</p>
+                <p>Leaves: {{ leave }}</p>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="section-title">Student Attendance Summary</div>
+    <div class="dashboard">
+        {% for name, present, leave in student_name_list|zip:student_attendance_present_list:student_attendance_leave_list %}
+            <div class="card">
+                <h2>{{ name }}</h2>
+                <p>Attendance Present: {{ present }}</p>
+                <p>Absent + Leaves: {{ leave }}</p>
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,55 @@
+{% extends 'staff_home_template/base_template.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Staff Feedback</h2>
+
+    <!-- Display Messages -->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+    <!-- Feedback Form -->
+    <form method="POST" action="{% url 'staff_feedback_save' %}">
+        {% csrf_token %}
+        <div class="form-group mt-3">
+            <label for="feedback_message">Your Feedback:</label>
+            <textarea name="feedback_message" id="feedback_message" class="form-control" rows="4" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary mt-3">Submit Feedback</button>
+    </form>
+
+    <!-- Previous Feedback Table -->
+    <h3 class="mt-5">Your Previous Feedback</h3>
+    {% with feedback_list=staff_obj.feedbackstaffs_set.all %}
+    <table class="table table-bordered mt-3">
+        <thead>
+            <tr>
+                <th>Feedback</th>
+                <th>Reply</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for feedback in feedback_list %}
+                <tr>
+                    <td>{{ feedback.feedback }}</td>
+                    <td>
+                        {% if feedback.feedback_reply %}
+                            {{ feedback.feedback_reply }}
+                        {% else %}
+                            <span class="text-muted">No reply yet</span>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="2" class="text-center">No feedback submitted yet.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endwith %}
+</div>
+{% endblock %}
